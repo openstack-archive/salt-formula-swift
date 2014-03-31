@@ -19,5 +19,5 @@ Swift is a highly available, distributed, eventually consistent object/blob stor
 
 ## Read more
 
-* http://docs.openstack.org/developer/swift/
+* http://docs.openstack.org/developer/swift/overview_architecture.html
 * https://github.com/stackforge/puppet-swift
