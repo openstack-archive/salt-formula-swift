@@ -1,7 +1,7 @@
 
 include:
-{%- if pillar.swift.storage is defined %}
-- swift.storage
+{%- if pillar.swift.object is defined %}
+- swift.object
 {%- endif %}
 {%- if pillar.swift.proxy is defined %}
 - swift.proxy
