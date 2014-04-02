@@ -13,7 +13,14 @@ Swift is a highly available, distributed, eventually consistent object/blob stor
         secret_key: shared_hash_suffix
         bind:
           address: 0.0.0.0
-          port: '11211'
+          port: '8080'
+        identity:
+          engine: keystone
+          host: 127.0.0.1
+          port: 35357
+          user: swift
+          password: pwd
+          tenant: service
 
 ### Swift storage server
 

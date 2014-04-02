@@ -3,10 +3,20 @@
     'Debian': {
         'pkgs': ['swift', 'python-swiftclient', 'swift-proxy'],
         'service': 'swift-proxy',
+        'workers': 5,
+        'bind': {
+            'address': '0.0.0.0',
+            'port': '8080'
+        }
     },
     'RedHat': {
-        'pkgs': ['openstack-swift', 'python-swiftclient', 'openstack-swift-proxy'],
+        'pkgs': ['openstack-swift', 'python-swiftclient', 'openstack-swift-proxy', 'python-keystone-auth-token'],
         'service': 'openstack-swift-proxy',
+        'workers': 5,
+        'bind': {
+            'address': '0.0.0.0',
+            'port': '8080'
+        }
     },
 }, merge=salt['pillar.get']('swift:proxy')) %}
 
