@@ -27,7 +27,7 @@
     },
     'RedHat': {
         'pkgs': ['openstack-swift', 'openstack-swift-object'],
-        'services': ['openstack-swift-object', 'openstack-swift-object-auditor', 'openstack-swift-object-replicator', 'openstack-swift-object-updater'] ,
+        'services': ['openstack-swift-object', 'openstack-swift-object-auditor', 'openstack-swift-object-replicator', 'openstack-swift-object-updater', 'xfsprogs'] ,
     },
 }, merge=salt['pillar.get']('swift:object')) %}
 
