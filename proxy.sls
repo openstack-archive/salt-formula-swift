@@ -13,8 +13,8 @@ swift_proxy_config:
   - name: /etc/swift/proxy-server.conf
   - source: salt://swift/conf/proxy-server.conf
   - template: jinja
-  - user: root
-  - group: root
+  - user: swift
+  - group: swift
   - mode: 644
 
 swift_proxy_services:
