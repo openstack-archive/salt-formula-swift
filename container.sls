@@ -5,6 +5,13 @@
 include:
 - swift.common
 
+/etc/swift/recon:
+  file.directory:
+  - user: swift
+  - group: swift
+  - require:
+    - pkg: swift_container_packages
+
 swift_container_packages:
   pkg.installed:
   - names: {{ container.pkgs }}

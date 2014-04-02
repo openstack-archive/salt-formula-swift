@@ -3,6 +3,6 @@
   file.managed:
   - source: salt://swift/conf/swift.conf
   - template: jinja
-  - user: root
-  - group: root
+  - user: swift
+  - group: swift
   - mode: 644
