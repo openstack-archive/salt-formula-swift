@@ -40,3 +40,5 @@ Swift is a highly available, distributed, eventually consistent object/blob stor
 * http://docs.openstack.org/developer/swift/overview_architecture.html
 * http://docs.openstack.org/developer/swift/howto_installmultinode.html
 * https://github.com/stackforge/puppet-swift
+* http://docs.openstack.org/havana/install-guide/install/yum/content/installing-and-configuring-the-proxy-node.html
+* http://docs.openstack.org/havana/install-guide/install/yum/content/installing-and-configuring-storage-nodes.html
