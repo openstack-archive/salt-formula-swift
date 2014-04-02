@@ -5,7 +5,7 @@
 include:
 - swift.common
 
-/etc/swift/recon:
+/var/swift/recon:
   file.directory:
   - user: swift
   - group: swift
