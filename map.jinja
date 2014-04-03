@@ -2,7 +2,7 @@
 {% set proxy = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['swift', 'python-swiftclient', 'swift-proxy'],
-        'service': 'swift-proxy',
+        'services': ['swift-proxy'],
         'workers': 5,
         'bind': {
             'address': '0.0.0.0',
@@ -11,7 +11,7 @@
     },
     'RedHat': {
         'pkgs': ['openstack-swift', 'python-swiftclient', 'openstack-swift-proxy', 'python-keystone-auth-token'],
-        'service': 'openstack-swift-proxy',
+        'services': ['openstack-swift-proxy'],
         'workers': 5,
         'bind': {
             'address': '0.0.0.0',

@@ -4,7 +4,4 @@
 include:
 - swift.common
 
-
-
-
 {%- endif %}
