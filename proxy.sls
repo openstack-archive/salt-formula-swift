@@ -2,6 +2,9 @@
 
 {%- if proxy.enabled %}
 
+include:
+- swift.common
+
 swift_proxy_packages:
   pkg.installed:
   - names: {{ proxy.pkgs }}
@@ -22,5 +25,6 @@ swift_proxy_services:
   - names: {{ proxy.services }}
   - watch:
     - file: swift_proxy_config
+    - file: swift_config
 
 {%- endif %}
