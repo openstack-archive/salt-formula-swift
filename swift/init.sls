@@ -1,5 +1,8 @@
 
 include:
+{% if pillar.swift.common is defined %}
+- swift.common
+{% endif %}
 {%- if pillar.swift.object is defined %}
 - swift.object
 {%- endif %}

@@ -2,19 +2,13 @@
 
 {%- if proxy.enabled %}
 
-include:
-- swift.common
-
 swift_proxy_packages:
   pkg.installed:
   - names: {{ proxy.pkgs }}
-  - require_in:
-    - file: swift_proxy_config
 
-swift_proxy_config:
+/etc/swift/proxy-server.conf:
   file.managed:
-  - name: /etc/swift/proxy-server.conf
-  - source: salt://swift/conf/proxy-server.conf
+  - source: salt://swift/files/{{ proxy.version }}/proxy-server.conf
   - template: jinja
   - user: swift
   - group: swift
@@ -25,6 +19,5 @@ swift_proxy_services:
   - names: {{ proxy.services }}
   - watch:
     - file: swift_proxy_config
-    - file: swift_config
 
 {%- endif %}

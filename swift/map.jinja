@@ -1,4 +1,13 @@
 
+{% set common = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['swift']
+    },
+    'RedHat': {
+        'pkgs': ['openstack-swift']
+    },
+}, merge=salt['pillar.get']('swift:common')) %}
+
 {% set proxy = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['swift', 'python-swiftclient', 'swift-proxy'],

@@ -1,16 +1,26 @@
-
-# Swift
+================
+OpenStack Swift
+================
 
 Swift is a highly available, distributed, eventually consistent object/blob store. Organizations can use Swift to store lots of data efficiently, safely, and cheaply.
 
-## Sample pillars
+Sample pillars
+==============
 
-### Swift proxy server
+Swift proxy server
+------------------
+
+.. code-block:: yaml
 
     swift:
-      proxy:
+      common:
         enabled: true
-        secret_key: shared_hash_suffix
+        version: kilo
+        swift_hash_path_suffix: hash
+        swift_hash_path_prefix: hash
+      proxy:
+        version: kilo
+        enabled: true
         bind:
           address: 0.0.0.0
           port: 8080
@@ -22,29 +32,38 @@ Swift is a highly available, distributed, eventually consistent object/blob stor
           password: pwd
           tenant: service
 
-### Swift storage server
+Swift storage server
+--------------------
+
+.. code-block:: yaml
 
     swift:
+      common:
+        version: kilo
+        enabled: true
+        swift_hash_path_suffix: hash
+        swift_hash_path_prefix: hash
       object:
         enabled: true
-        secret_key: shared_hash_suffix
+        version: kilo
         bind:
           address: 0.0.0.0
           port: 6000
       container:
         enabled: true
-        secret_key: shared_hash_suffix
+        version: kilo
         bind:
           address: 0.0.0.0
           port: 6001
       account:
         enabled: true
-        secret_key: shared_hash_suffix
+        version: kilo
         bind:
           address: 0.0.0.0
           port: 6002
 
-## Read more
+Read more
+=========
 
 * http://docs.openstack.org/developer/swift/overview_architecture.html
 * http://docs.openstack.org/developer/swift/howto_installmultinode.html
