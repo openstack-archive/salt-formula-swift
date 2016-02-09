@@ -18,6 +18,6 @@ swift_proxy_services:
   service.running:
   - names: {{ proxy.services }}
   - watch:
-    - file: swift_proxy_config
+    - file: /etc/swift/proxy-server.conf
 
 {%- endif %}
