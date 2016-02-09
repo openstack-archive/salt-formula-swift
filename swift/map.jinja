@@ -10,7 +10,7 @@
 
 {% set proxy = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['swift', 'python-swiftclient', 'swift-proxy'],
+        'pkgs': ['swift', 'python-swiftclient', 'swift-proxy', 'python-keystone'],
         'services': ['swift-proxy'],
         'workers': 5,
         'bind': {
