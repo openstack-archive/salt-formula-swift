@@ -9,7 +9,7 @@ swift_object_packages:
 swift_object_config:
   file.managed:
   - name: /etc/swift/object-server.conf
-  - source: salt://swift/conf/object-server.conf
+  - source: salt://swift/conf/{{ object.version }}/object-server.conf
   - template: jinja
   - user: swift
   - group: swift
