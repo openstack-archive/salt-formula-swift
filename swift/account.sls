@@ -8,7 +8,7 @@ swift_account_packages:
 
 /etc/swift/account-server.conf:
   file.managed:
-  - source: salt://swift/files/{{ proxy.version }}/account-server.conf
+  - source: salt://swift/files/{{ account.version }}/account-server.conf
   - template: jinja
   - user: swift
   - group: swift

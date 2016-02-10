@@ -8,7 +8,7 @@ swift_container_packages:
 
 /etc/swift/container-server.conf:
   file.managed:
-  - source: salt://swift/files/{{ proxy.version }}/container-server.conf
+  - source: salt://swift/files/{{ container.version }}/container-server.conf
   - template: jinja
   - user: swift
   - group: swift
