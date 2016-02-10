@@ -9,3 +9,6 @@ include:
 {%- if pillar.swift.proxy is defined %}
 - swift.proxy
 {%- endif %}
+{%- if pillar.swift.ring_builder is defined %}
+- swift.ring_builder
+{%- endif %}

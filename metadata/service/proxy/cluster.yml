@@ -22,10 +22,6 @@ parameters:
           port: 11211
         - host: ${_param:cluster_node03_address}
           port: 11211
-      ring:
-        partition_power: 3
-        replicas: 3
-        hours: 1
       identity:
         engine: keystone
         host: ${_param:cluster_vip_address}

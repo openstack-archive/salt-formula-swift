@@ -15,10 +15,6 @@ swift:
       members: 
       - host: 127.0.0.1
         port: 11211
-    ring:
-      partition_power: 3
-      replicas: 3
-      hours: 1
     identity:
       engine: keystone
       host: 127.0.0.1
@@ -26,3 +22,19 @@ swift:
       user: swift
       password: password
       tenant: service
+  ring_builder:
+    enabled: true
+    rings:
+      - partition_power: 6
+        replicas: 1
+        hours: 1
+        account_builder: /etc/swift/account.builder
+        container_builder: /etc/swift/container.builder
+        object_builder: /etc/swift/object.builder
+        devices:
+          - address: 127.0.0.1
+            device: vdb
+            weight: 100
+            object_port: 6000
+            container_port: 6001
+            account_port: 6002
