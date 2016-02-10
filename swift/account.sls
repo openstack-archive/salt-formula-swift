@@ -18,6 +18,6 @@ swift_account_services:
   service.running:
   - names: {{ account.services }}
   - watch:
-    - file: swift_account_config
+    - file: /etc/swift/account-server.conf
 
 {%- endif %}

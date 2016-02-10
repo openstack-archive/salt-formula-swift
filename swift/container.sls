@@ -18,6 +18,6 @@ swift_container_services:
   service.running:
   - names: {{ container.services }}
   - watch:
-    - file: swift_container_config
+    - file: /etc/swift/container-server.conf
 
 {%- endif %}
