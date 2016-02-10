@@ -32,7 +32,7 @@
 {% set object = salt['grains.filter_by']({
     'Debian': {
         'pkgs': ['swift', 'swift-object'],
-        'services': ['swift-object-auditor', 'swift-object-updater'],
+        'services': ['swift-object', 'swift-object-auditor', 'swift-object-updater'],
     },
     'RedHat': {
         'pkgs': ['openstack-swift', 'openstack-swift-object'],
