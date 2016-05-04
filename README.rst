@@ -52,6 +52,7 @@ Swift storage server
       container:
         enabled: true
         version: kilo
+        allow_versions: true
         bind:
           address: 0.0.0.0
           port: 6001
@@ -62,6 +63,17 @@ Swift storage server
           address: 0.0.0.0
           port: 6002
 
+
+To enable versions
+
+.. code-block:: yaml
+
+    swift:
+      ....
+      container:
+        ....
+        allow_versions: true
+        ....
 Read more
 =========
 
