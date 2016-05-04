@@ -12,6 +12,7 @@ swift:
       port: 6000
   container:
     enabled: true
+    allow_versions: true
     version: kilo
     bind:
       address: 0.0.0.0
