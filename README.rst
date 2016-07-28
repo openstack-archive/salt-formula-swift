@@ -74,6 +74,39 @@ To enable versions
         ....
         allow_versions: true
         ....
+
+Ring builder
+------------
+
+.. code-block:: yaml
+
+    parameters:
+      swift:
+        ring_builder:
+          enabled: true
+          rings:
+            - name: default
+              partition_power: 9
+              replicas: 3
+              hours: 1
+              devices:
+                - address: ${_param:storage_node01_address}
+                  device: vdb
+                - address: ${_param:storage_node02_address}
+                  device: vdc
+                - address: ${_param:storage_node03_address}
+                  device: vdd
+            - partition_power: 9
+              replicas: 1
+              hours: 1
+              devices:
+                - address: ${_param:storage_node01_address}
+                  device: vdb
+                - address: ${_param:storage_node02_address}
+                  device: vdc
+                - address: ${_param:storage_node03_address}
+                  device: vdd
+
 Read more
 =========
 
