@@ -1,9 +1,8 @@
 {% from "swift/map.jinja" import proxy with context %}
-
 {%- if proxy.enabled %}
 
 include:
-  - swift.ring_builder
+- swift.ring_builder
 
 swift_proxy_packages:
   pkg.installed:
@@ -22,9 +21,8 @@ swift_proxy_services:
   - names: {{ proxy.services }}
   - watch:
     - file: /etc/swift/proxy-server.conf
-  - require:
-    - cmd: swift_ring_object_rebalance
-    - cmd: swift_ring_account_rebalance
-    - cmd: swift_ring_container_rebalance
-
+#  - require:
+#    - cmd: swift_ring_object_rebalance
+#    - cmd: swift_ring_account_rebalance
+#    - cmd: swift_ring_container_rebalance
 {%- endif %}
