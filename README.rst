@@ -14,6 +14,13 @@ Swift proxy server
 
     swift:
       common:
+        cache:
+          engine: memcached
+          members:
+          - host: 127.0.0.1
+            port: 11211
+          - host: 127.0.0.1
+            port: 11211
         enabled: true
         version: kilo
         swift_hash_path_suffix: hash
@@ -39,6 +46,13 @@ Swift storage server
 
     swift:
       common:
+        cache:
+          engine: memcached
+          members:
+          - host: 127.0.0.1
+            port: 11211
+          - host: 127.0.0.1
+            port: 11211
         version: kilo
         enabled: true
         swift_hash_path_suffix: hash
@@ -64,7 +78,7 @@ Swift storage server
           port: 6002
 
 
-To enable versions
+To enable object versioning feature
 
 .. code-block:: yaml
 
@@ -89,6 +103,7 @@ Ring builder
               partition_power: 9
               replicas: 3
               hours: 1
+              region: 1
               devices:
                 - address: ${_param:storage_node01_address}
                   device: vdb
@@ -97,21 +112,38 @@ Ring builder
                 - address: ${_param:storage_node03_address}
                   device: vdd
             - partition_power: 9
-              replicas: 1
+              replicas: 2
               hours: 1
+              region: 1
               devices:
                 - address: ${_param:storage_node01_address}
                   device: vdb
                 - address: ${_param:storage_node02_address}
                   device: vdc
-                - address: ${_param:storage_node03_address}
-                  device: vdd
 
-Read more
-=========
+Documentation and Bugs
+============================
 
-* http://docs.openstack.org/developer/swift/overview_architecture.html
-* http://docs.openstack.org/developer/swift/howto_installmultinode.html
-* https://github.com/stackforge/puppet-swift
-* http://docs.openstack.org/havana/install-guide/install/yum/content/installing-and-configuring-the-proxy-node.html
-* http://docs.openstack.org/havana/install-guide/install/yum/content/installing-and-configuring-storage-nodes.html
+To learn how to deploy OpenStack Salt, consult the documentation available
+online at:
+
+    https://wiki.openstack.org/wiki/OpenStackSalt
+
+In the unfortunate event that bugs are discovered, they should be reported to
+the appropriate bug tracker. If you obtained the software from a 3rd party
+operating system vendor, it is often wise to use their own bug tracker for
+reporting problems. In all other cases use the master OpenStack bug tracker,
+available at:
+
+    http://bugs.launchpad.net/openstack-salt
+
+Developers wishing to work on the OpenStack Salt project should always base
+their work on the latest formulas code, available from the master GIT
+repository at:
+
+    https://git.openstack.org/cgit/openstack/salt-formula-swift
+
+Developers should also join the discussion on the IRC list, at:
+
+    https://wiki.openstack.org/wiki/Meetings/openstack-salt
+

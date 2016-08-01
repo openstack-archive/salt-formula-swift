@@ -20,3 +20,13 @@ swift_common_packages:
   - mode: 644
   - require:
     - file: /etc/swift
+
+/etc/swift/memcache.conf:
+  file.managed:
+  - source: salt://swift/files/{{ common.version }}/memcache.conf
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
+  - require:
+    - file: /etc/swift

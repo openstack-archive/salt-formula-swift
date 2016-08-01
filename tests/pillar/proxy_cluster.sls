@@ -1,5 +1,12 @@
 swift:
   common:
+    cache:
+      engine: memcached
+      members:
+      - host: 127.0.0.1
+        port: 11211
+      - host: 127.0.0.1
+        port: 11211
     enabled: true
     version: kilo
     swift_hash_path_suffix: myhash
@@ -10,15 +17,6 @@ swift:
     bind:
       address: 0.0.0.0
       port: 8080
-    cache:
-      engine: memcached
-      members: 
-      - host: 127.0.0.1
-        port: 11211
-      - host: 127.0.0.1
-        port: 11211
-      - host: 127.0.0.1
-        port: 11211
     identity:
       engine: keystone
       host: 127.0.0.1
@@ -32,6 +30,7 @@ swift:
       - partition_power: 9
         replicas: 3
         hours: 1
+        region: 1
         account_builder: /etc/swift/account.builder
         container_builder: /etc/swift/container.builder
         object_builder: /etc/swift/object.builder
