@@ -19,5 +19,6 @@ swift_account_services:
   - names: {{ account.services }}
   - watch:
     - file: /etc/swift/account-server.conf
+    - file: /etc/swift/memcache.conf
 
 {%- endif %}

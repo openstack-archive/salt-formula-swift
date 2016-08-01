@@ -32,5 +32,6 @@ swift_container_services:
   - watch:
     - file: /etc/swift/container-server.conf
     - file: /etc/swift/container-reconciler.conf
+    - file: /etc/swift/memcache.conf
 
 {%- endif %}
