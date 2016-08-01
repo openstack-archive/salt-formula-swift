@@ -89,6 +89,7 @@ Ring builder
               partition_power: 9
               replicas: 3
               hours: 1
+              region: 1
               devices:
                 - address: ${_param:storage_node01_address}
                   device: vdb

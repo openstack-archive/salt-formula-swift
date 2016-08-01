@@ -20,5 +20,6 @@ swift_object_services:
   - names: {{ object.services }}
   - watch:
     - file: swift_object_config
+    - file: /etc/swift/memcache.conf
 
 {%- endif %}
