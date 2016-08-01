@@ -14,6 +14,13 @@ Swift proxy server
 
     swift:
       common:
+        cache:
+          engine: memcached
+          members:
+          - host: 127.0.0.1
+          port: 11211
+          - host: 127.0.0.1
+          port: 11211
         enabled: true
         version: kilo
         swift_hash_path_suffix: hash
@@ -39,6 +46,12 @@ Swift storage server
 
     swift:
       common:
+        cache:
+          engine: memcached
+          members:
+          - host: 127.0.0.1
+          port: 11211
+          - host: 127.0.0.1
         version: kilo
         enabled: true
         swift_hash_path_suffix: hash
@@ -89,6 +102,7 @@ Ring builder
               partition_power: 9
               replicas: 3
               hours: 1
+              region: 1
               devices:
                 - address: ${_param:storage_node01_address}
                   device: vdb
@@ -97,15 +111,14 @@ Ring builder
                 - address: ${_param:storage_node03_address}
                   device: vdd
             - partition_power: 9
-              replicas: 1
+              replicas: 2
               hours: 1
+              region: 1
               devices:
                 - address: ${_param:storage_node01_address}
                   device: vdb
                 - address: ${_param:storage_node02_address}
                   device: vdc
-                - address: ${_param:storage_node03_address}
-                  device: vdd
 
 Read more
 =========
