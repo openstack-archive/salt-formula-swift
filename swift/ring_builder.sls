@@ -21,9 +21,9 @@ include:
 {%- endif %}
 
 {%- if ring_num0 > 0 %}
-  {%- set object_builder = "/etc/swift/object-"+ring_num0+".builder" %}
-  {%- set account_builder = "/etc/swift/account-"+ring_num0+".builder" %}
-  {%- set container_builder = "/etc/swift/container-"+ring_num0+".builder" %}
+  {%- set object_builder = "/etc/swift/object-"~ring_num0~".builder" %}
+  {%- set account_builder = "/etc/swift/account-"~ring_num0~".builder" %}
+  {%- set container_builder = "/etc/swift/container-"~ring_num0~".builder" %}
 {%- else %}
   {%- set object_builder = "/etc/swift/object.builder" %}
   {%- set account_builder = "/etc/swift/account.builder" %}
@@ -31,7 +31,7 @@ include:
 {%- endif %}
 
 {%- if ring.get('object', True) %}
-swift_ring_object_create:
+swift_ring_object_create_{{ring_num}}:
   cmd.run:
     - name: swift-ring-builder {{ object_builder }} create {{ ring.partition_power }} {{ ring.replicas }} {{ ring.hours }}
     - creates: {{ object_builder }}
@@ -60,13 +60,13 @@ swift_ring_container_create:
 {%- for device in ring.devices %}
 
 {%- if ring.get('object', True) %}
-swift_ring_object_{{ device.address }}:
+swift_ring_object_{{ring_num}}_{{ device.address }}:
   cmd.wait:
     - name: swift-ring-builder {{ object_builder }} add r{{ ring_num }}z{{ loop.index }}-{{ device.address }}:{{ device.get("object_port", 6000) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
-      - cmd: swift_ring_object_create
+      - cmd: swift_ring_object_create_{{ring_num}}
     - watch_in:
-      - cmd: swift_ring_object_rebalance
+      - cmd: swift_ring_object_rebalance_{{ring_num}}
 {%- endif %}
 
 {%- if ring_account %}
@@ -92,7 +92,7 @@ swift_ring_container_{{ device.address }}:
 {%- endfor %}
 
 {%- if ring.get('object', True) %}
-swift_ring_object_rebalance:
+swift_ring_object_rebalance_{{ring_num}}:
   cmd.wait:
     - name: swift-ring-builder {{ object_builder }} rebalance
 {%- endif %}
