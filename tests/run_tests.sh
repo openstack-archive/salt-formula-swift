@@ -18,7 +18,7 @@ SALT_PILLAR_DIR=${SALT_PILLAR_DIR:-${BUILDDIR}/pillar_root}
 SALT_CONFIG_DIR=${SALT_CONFIG_DIR:-${BUILDDIR}/salt}
 SALT_CACHE_DIR=${SALT_CACHE_DIR:-${SALT_CONFIG_DIR}/cache}
 
-SALT_OPTS="${SALT_OPTS} --retcode-passthrough --local -c ${SALT_CONFIG_DIR}"
+SALT_OPTS="${SALT_OPTS} --retcode-passthrough --local -c ${SALT_CONFIG_DIR} --log-file=/dev/null"
 
 if [ "x${SALT_VERSION}" != "x" ]; then
     PIP_SALT_VERSION="==${SALT_VERSION}"
@@ -64,11 +64,13 @@ setup_salt() {
 file_client: local
 cachedir: ${SALT_CACHE_DIR}
 verify_env: False
+minion_id_caching: False
 
 file_roots:
   base:
   - ${SALT_FILE_DIR}
   - ${CURDIR}/..
+  - /usr/share/salt-formulas/env
 
 pillar_roots:
   base:
@@ -78,16 +80,17 @@ EOF
 }
 
 fetch_dependency() {
-    dep_root="${DEPSDIR}/$(basename $1 .git)"
+    dep_name="$(echo $1|cut -d : -f 1)"
+    dep_source="$(echo $1|cut -d : -f 2-)"
+    dep_root="${DEPSDIR}/$(basename $dep_source .git)"
     dep_metadata="${dep_root}/metadata.yml"
 
-    [ -d $dep_root ] && log_info "Dependency $1 already fetched" && return 0
+    [ -d /usr/share/salt-formulas/env/${dep_name} ] && log_info "Dependency $dep_name already present in system-wide salt env" && return 0
+    [ -d $dep_root ] && log_info "Dependency $dep_name already fetched" && return 0
 
-    log_info "Fetching dependency $1"
+    log_info "Fetching dependency $dep_name"
     [ ! -d ${DEPSDIR} ] && mkdir -p ${DEPSDIR}
-    git clone $1 ${DEPSDIR}/$(basename $1 .git)
-
-    dep_name=$(cat $dep_metadata | python -c "import sys,yaml; print yaml.load(sys.stdin)['name']")
+    git clone $dep_source ${DEPSDIR}/$(basename $dep_source .git)
     ln -s ${dep_root}/${dep_name} ${SALT_FILE_DIR}/${dep_name}
 
     METADATA="${dep_metadata}" install_dependencies
@@ -98,7 +101,7 @@ install_dependencies() {
     (python - | while read dep; do fetch_dependency "$dep"; done) << EOF
 import sys,yaml
 for dep in yaml.load(open('${METADATA}', 'ro'))['dependencies']:
-    print dep["source"]
+    print '%s:%s' % (dep["name"], dep["source"])
 EOF
 }
 
@@ -108,14 +111,14 @@ clean() {
 }
 
 salt_run() {
-    source ${VENV_DIR}/bin/activate
+    [ -e ${VEN_DIR}/bin/activate ] && source ${VENV_DIR}/bin/activate
     salt-call ${SALT_OPTS} $*
 }
 
 prepare() {
     [ -d ${BUILDDIR} ] && mkdir -p ${BUILDDIR}
 
-    setup_virtualenv
+    which salt-call || setup_virtualenv
     setup_pillar
     setup_salt
     install_dependencies
