@@ -15,11 +15,13 @@ swift_object_config:
   - group: swift
   - mode: 644
 
+{%- if not grains.get('noservices', False) %}
 swift_object_services:
   service.running:
   - names: {{ object.services }}
   - watch:
     - file: swift_object_config
     - file: /etc/swift/memcache.conf
+{%- endif %}
 
 {%- endif %}
