@@ -62,7 +62,7 @@ swift_ring_container_create:
 {%- if ring.get('object', True) %}
 swift_ring_object_{{ring_num}}_{{ device.address }}:
   cmd.wait:
-    - name: swift-ring-builder {{ object_builder }} add r{{ ring.region }}z{{ loop.index }}-{{ device.address }}:{{ device.get("object_port", 6000) }}/{{ device.device }} {{ device.get("weight", 100) }}
+    - name: swift-ring-builder {{ object_builder }} add r{{ device.get('region', ring.region) }}z{{ device.get('zone', loop.index) }}-{{ device.address }}:{{ device.get("object_port", 6000) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
       - cmd: swift_ring_object_create_{{ring_num}}
     - watch_in:
@@ -72,7 +72,7 @@ swift_ring_object_{{ring_num}}_{{ device.address }}:
 {%- if ring_account %}
 swift_ring_account_{{ device.address }}:
   cmd.wait:
-    - name: swift-ring-builder {{ account_builder }} add r{{ ring.region }}z{{ loop.index }}-{{ device.address }}:{{ device.get("account_port", 6002) }}/{{ device.device }} {{ device.get("weight", 100) }}
+    - name: swift-ring-builder {{ account_builder }} add r{{ device.get('region', ring.region) }}z{{ device.get('zone', loop.index) }}-{{ device.address }}:{{ device.get("account_port", 6002) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
       - cmd: swift_ring_account_create
     - watch_in:
@@ -82,7 +82,7 @@ swift_ring_account_{{ device.address }}:
 {%- if ring_container %}
 swift_ring_container_{{ device.address }}:
   cmd.wait:
-    - name: swift-ring-builder {{ container_builder }} add r{{ ring.region }}z{{ loop.index }}-{{ device.address }}:{{ device.get("container_port", 6001) }}/{{ device.device }} {{ device.get("weight", 100) }}
+    - name: swift-ring-builder {{ container_builder }} add r{{ device.get('region', ring.region) }}z{{ device.get('zone', loop.index) }}-{{ device.address }}:{{ device.get("container_port", 6001) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
       - cmd: swift_ring_container_create
     - watch_in:
