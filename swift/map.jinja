@@ -1,27 +1,35 @@
 
 {% set common = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['swift']
+        'pkgs': ['swift'],
+        'swift_dir': '/etc/swift',
+        'node_dir': '/srv/node'
     },
     'RedHat': {
-        'pkgs': ['openstack-swift']
+        'pkgs': ['openstack-swift'],
+        'swift_dir': '/etc/swift',
+        'node_dir': '/srv/node'
     },
 }, merge=salt['pillar.get']('swift:common')) %}
 
 {% set proxy = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['swift', 'python-swiftclient', 'swift-proxy', 'python-keystone'],
+        'pkgs': ['swift', 'python-swiftclient', 'swift-proxy', 'python-keystone', 'swift-plugin-s3'],
         'services': ['swift-proxy'],
         'workers': 5,
+        'tempauth': { 'enabled' : false },
+        'affinity': { 'enabled' : false },
         'bind': {
             'address': '0.0.0.0',
             'port': '8080'
         }
     },
     'RedHat': {
-        'pkgs': ['openstack-swift', 'python-swiftclient', 'openstack-swift-proxy', 'python-keystone'],
+        'pkgs': ['openstack-swift', 'python-swiftclient', 'openstack-swift-proxy', 'python-keystone', 'swift-python-s3'],
         'services': ['openstack-swift-proxy'],
         'workers': 5,
+        'tempauth': { 'enabled' : false },
+        'affinity': { 'enabled' : false },
         'bind': {
             'address': '0.0.0.0',
             'port': '8080'

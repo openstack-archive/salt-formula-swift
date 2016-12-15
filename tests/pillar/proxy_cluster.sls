@@ -8,12 +8,12 @@ swift:
       - host: 127.0.0.1
         port: 11211
     enabled: true
-    version: kilo
+    version: liberty
     swift_hash_path_suffix: myhash
     swift_hash_path_prefix: myhash
   proxy:
     enabled: true
-    version: kilo
+    version: liberty
     bind:
       address: 0.0.0.0
       port: 8080

@@ -1,4 +1,4 @@
-{% from "swift/map.jinja" import account with context %}
+{% from "swift/map.jinja" import account,common with context %}
 
 {%- if account.enabled %}
 
@@ -6,7 +6,17 @@ swift_account_packages:
   pkg.installed:
   - names: {{ account.pkgs }}
 
-/etc/swift/account-server.conf:
+swift_account_node_directory:
+  file.directory:
+  - name: {{ common.node_dir }}
+  - user: swift
+  - group: swift
+  - mode: 750
+  - require:
+    - pkg: swift_account_packages
+    #- user: swift_group_and_user
+
+{{ common.swift_dir }}/account-server.conf:
   file.managed:
   - source: salt://swift/files/{{ account.version }}/account-server.conf
   - template: jinja
@@ -20,8 +30,8 @@ swift_account_services:
   - enable: true
   - names: {{ account.services }}
   - watch:
-    - file: /etc/swift/account-server.conf
-    - file: /etc/swift/memcache.conf
+    - file: {{ common.swift_dir }}/account-server.conf
+    - file: {{ common.swift_dir }}/memcache.conf
 {%- endif %}
 
 {%- endif %}
