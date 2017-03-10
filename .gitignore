@@ -3,3 +3,8 @@ tests/build/
 *.swp
 *.pyc
 .ropeproject
+.bundle
+.vendor
+.kitchen
+.bundle
+.vendor
