@@ -1,0 +1,56 @@
+---
+driver:
+  name: docker
+  hostname: swift.ci.local
+  use_sudo: false
+
+provisioner:
+  name: salt_solo
+  salt_install: bootstrap
+  salt_bootstrap_url: https://bootstrap.saltstack.com
+  salt_version: latest
+  require_chef: false
+  log_level: error
+  formula: swift
+  grains:
+    noservices: True
+  dependencies:
+    - name: linux
+      repo: git
+      source: https://github.com/salt-formulas/salt-formula-linux
+  state_top:
+    base:
+      "*":
+        - linux.system
+        - swift
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - linux_repo_openstack
+          - swift
+  pillars-from-files:
+    linux_repo_openstack.sls: tests/pillar/repo_mos9.sls
+
+verifier:
+  name: inspec
+  sudo: true
+
+platforms:
+  - name: <%= ENV['PLATFORM'] || 'ubuntu-trusty' %>
+    driver_config:
+      image: <%= ENV['PLATFORM'] || 'trevorj/salty-whales:trusty' %>
+      platform: ubuntu
+
+suites:
+  - name: proxy_cluster
+    provisioner:
+      pillars-from-files:
+        swift.sls: tests/pillar/proxy_cluster.sls
+
+  - name: storage_cluster
+    provisioner:
+      pillars-from-files:
+        swift.sls: tests/pillar/storage_cluster.sls
+
+# vim: ft=yaml sw=2 ts=2 sts=2 tw=125

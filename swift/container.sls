@@ -26,12 +26,15 @@ swift_container_packages:
   - require:
     - file: /etc/swift
 
+{%- if not grains.get('noservices', False) %}
 swift_container_services:
   service.running:
+  - enable: true
   - names: {{ container.services }}
   - watch:
     - file: /etc/swift/container-server.conf
     - file: /etc/swift/container-reconciler.conf
     - file: /etc/swift/memcache.conf
+{%- endif %}
 
 {%- endif %}

@@ -14,11 +14,14 @@ swift_account_packages:
   - group: swift
   - mode: 644
 
+{%- if not grains.get('noservices', False) %}
 swift_account_services:
   service.running:
+  - enable: true
   - names: {{ account.services }}
   - watch:
     - file: /etc/swift/account-server.conf
     - file: /etc/swift/memcache.conf
+{%- endif %}
 
 {%- endif %}
