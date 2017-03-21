@@ -1,4 +1,4 @@
-{% from "swift/map.jinja" import container with context %}
+{% from "swift/map.jinja" import container,common with context %}
 
 {%- if container.enabled %}
 
@@ -6,7 +6,17 @@ swift_container_packages:
   pkg.installed:
   - names: {{ container.pkgs }}
 
-/etc/swift/container-server.conf:
+swift_container_node_directory:
+  file.directory:
+  - name: {{ common.node_dir }}
+  - user: swift
+  - group: swift
+  - mode: 750
+  - require:
+    - pkg: swift_container_packages
+    #- user: swift_group_and_user
+
+{{ common.swift_dir }}/container-server.conf:
   file.managed:
   - source: salt://swift/files/{{ container.version }}/container-server.conf
   - template: jinja
@@ -14,17 +24,17 @@ swift_container_packages:
   - group: swift
   - mode: 644
   - require:
-    - file: /etc/swift
+    - file: {{ common.swift_dir }}
 
-/etc/swift/container-reconciler.conf:
+{{ common.swift_dir }}/container-reconciler.conf:
   file.managed:
   - source: salt://swift/files/{{ container.version }}/container-reconciler.conf
   - template: jinja
-  - user: root
-  - group: root
+  - user: swift
+  - group: swift
   - mode: 644
   - require:
-    - file: /etc/swift
+    - file: {{ common.swift_dir }}
 
 {%- if not grains.get('noservices', False) %}
 swift_container_services:
@@ -32,9 +42,9 @@ swift_container_services:
   - enable: true
   - names: {{ container.services }}
   - watch:
-    - file: /etc/swift/container-server.conf
-    - file: /etc/swift/container-reconciler.conf
-    - file: /etc/swift/memcache.conf
+    - file: {{ common.swift_dir }}/container-server.conf
+    - file: {{ common.swift_dir }}/container-reconciler.conf
+    - file: {{ common.swift_dir }}/memcache.conf
 {%- endif %}
 
 {%- endif %}

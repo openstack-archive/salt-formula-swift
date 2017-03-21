@@ -37,9 +37,9 @@ verifier:
   sudo: true
 
 platforms:
-  - name: <%= ENV['PLATFORM'] || 'ubuntu-trusty' %>
+  - name: <%= ENV['PLATFORM'] || 'ubuntu-xenial' %>
     driver_config:
-      image: <%= ENV['PLATFORM'] || 'trevorj/salty-whales:trusty' %>
+      image: <%= ENV['PLATFORM'] || 'trevorj/salty-whales:xenial' %>
       platform: ubuntu
 
 suites:

@@ -1,4 +1,4 @@
-{% from "swift/map.jinja" import proxy with context %}
+{% from "swift/map.jinja" import proxy,common with context %}
 {%- if proxy.enabled %}
 
 include:
@@ -8,7 +8,7 @@ swift_proxy_packages:
   pkg.installed:
   - names: {{ proxy.pkgs }}
 
-/etc/swift/proxy-server.conf:
+{{ common.swift_dir }}/proxy-server.conf:
   file.managed:
   - source: salt://swift/files/{{ proxy.version }}/proxy-server.conf
   - template: jinja
@@ -22,8 +22,8 @@ swift_proxy_services:
   - enable: true
   - names: {{ proxy.services }}
   - watch:
-    - file: /etc/swift/proxy-server.conf
-    - file: /etc/swift/memcache.conf
+    - file: {{ common.swift_dir }}/proxy-server.conf
+    - file: {{ common.swift_dir }}/memcache.conf
 {%- endif %}
 
 {%- endif %}

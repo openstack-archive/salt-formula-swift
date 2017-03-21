@@ -1,3 +1,4 @@
+{% from "swift/map.jinja" import common with context %}
 {%- if pillar.swift.ring_builder.enabled %}
 
 include:
@@ -21,13 +22,13 @@ include:
 {%- endif %}
 
 {%- if ring_num0 > 0 %}
-  {%- set object_builder = "/etc/swift/object-"~ring_num0~".builder" %}
-  {%- set account_builder = "/etc/swift/account-"~ring_num0~".builder" %}
-  {%- set container_builder = "/etc/swift/container-"~ring_num0~".builder" %}
+  {%- set object_builder = common.swift_dir~"/object-"~ring_num0~".builder" %}
+  {%- set account_builder = common.swift_dir~"/account-"~ring_num0~".builder" %}
+  {%- set container_builder = common.swift_dir~"/container-"~ring_num0~".builder" %}
 {%- else %}
-  {%- set object_builder = "/etc/swift/object.builder" %}
-  {%- set account_builder = "/etc/swift/account.builder" %}
-  {%- set container_builder = "/etc/swift/container.builder" %}
+  {%- set object_builder = common.swift_dir~"/object.builder" %}
+  {%- set account_builder = common.swift_dir~"/account.builder" %}
+  {%- set container_builder = common.swift_dir~"/container.builder" %}
 {%- endif %}
 
 {%- if ring.get('object', True) %}
@@ -36,7 +37,7 @@ swift_ring_object_create_{{ring_num}}:
     - name: swift-ring-builder {{ object_builder }} create {{ ring.partition_power }} {{ ring.replicas }} {{ ring.hours }}
     - creates: {{ object_builder }}
     - require:
-      - file: /etc/swift/swift.conf
+      - file: {{ common.swift_dir }}/swift.conf
 {%- endif %}
 
 {%- if ring_account %}
@@ -45,7 +46,7 @@ swift_ring_account_create:
     - name: swift-ring-builder {{ account_builder }} create {{ ring.partition_power }} {{ ring.replicas }} {{ ring.hours }}
     - creates: {{ account_builder }}
     - require:
-      - file: /etc/swift/swift.conf
+      - file: {{ common.swift_dir }}/swift.conf
 {%- endif %}
 
 {%- if ring_container %}
@@ -54,7 +55,7 @@ swift_ring_container_create:
     - name: swift-ring-builder {{ container_builder }} create {{ ring.partition_power }} {{ ring.replicas }} {{ ring.hours }}
     - creates: {{ container_builder }}
     - require:
-      - file: /etc/swift/swift.conf
+      - file: {{ common.swift_dir }}/swift.conf
 {%- endif %}
 
 {%- for device in ring.devices %}
@@ -62,7 +63,7 @@ swift_ring_container_create:
 {%- if ring.get('object', True) %}
 swift_ring_object_{{ring_num}}_{{ device.address }}:
   cmd.wait:
-    - name: swift-ring-builder {{ object_builder }} add r{{ ring.region }}z{{ loop.index }}-{{ device.address }}:{{ device.get("object_port", 6000) }}/{{ device.device }} {{ device.get("weight", 100) }}
+    - name: swift-ring-builder {{ object_builder }} add r{{ device.get('region', ring.region) }}z{{ device.get('zone', loop.index) }}-{{ device.address }}:{{ device.get("object_port", 6000) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
       - cmd: swift_ring_object_create_{{ring_num}}
     - watch_in:
@@ -72,7 +73,7 @@ swift_ring_object_{{ring_num}}_{{ device.address }}:
 {%- if ring_account %}
 swift_ring_account_{{ device.address }}:
   cmd.wait:
-    - name: swift-ring-builder {{ account_builder }} add r{{ ring.region }}z{{ loop.index }}-{{ device.address }}:{{ device.get("account_port", 6002) }}/{{ device.device }} {{ device.get("weight", 100) }}
+    - name: swift-ring-builder {{ account_builder }} add r{{ device.get('region', ring.region) }}z{{ device.get('zone', loop.index) }}-{{ device.address }}:{{ device.get("account_port", 6002) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
       - cmd: swift_ring_account_create
     - watch_in:
@@ -82,7 +83,7 @@ swift_ring_account_{{ device.address }}:
 {%- if ring_container %}
 swift_ring_container_{{ device.address }}:
   cmd.wait:
-    - name: swift-ring-builder {{ container_builder }} add r{{ ring.region }}z{{ loop.index }}-{{ device.address }}:{{ device.get("container_port", 6001) }}/{{ device.device }} {{ device.get("weight", 100) }}
+    - name: swift-ring-builder {{ container_builder }} add r{{ device.get('region', ring.region) }}z{{ device.get('zone', loop.index) }}-{{ device.address }}:{{ device.get("container_port", 6001) }}/{{ device.device }} {{ device.get("weight", 100) }}
     - watch:
       - cmd: swift_ring_container_create
     - watch_in:
