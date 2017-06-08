@@ -36,15 +36,16 @@ swift_container_node_directory:
   - require:
     - file: {{ common.swift_dir }}
 
-{%- if not grains.get('noservices', False) %}
 swift_container_services:
   service.running:
   - enable: true
   - names: {{ container.services }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - watch:
     - file: {{ common.swift_dir }}/container-server.conf
     - file: {{ common.swift_dir }}/container-reconciler.conf
     - file: {{ common.swift_dir }}/memcache.conf
-{%- endif %}
 
 {%- endif %}

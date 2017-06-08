@@ -25,14 +25,15 @@ swift_object_config:
   - group: swift
   - mode: 644
 
-{%- if not grains.get('noservices', False) %}
 swift_object_services:
   service.running:
   - enable: true
   - names: {{ object.services }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - watch:
     - file: swift_object_config
     - file: {{ common.swift_dir }}/memcache.conf
-{%- endif %}
 
 {%- endif %}

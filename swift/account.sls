@@ -24,14 +24,15 @@ swift_account_node_directory:
   - group: swift
   - mode: 644
 
-{%- if not grains.get('noservices', False) %}
 swift_account_services:
   service.running:
   - enable: true
   - names: {{ account.services }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - watch:
     - file: {{ common.swift_dir }}/account-server.conf
     - file: {{ common.swift_dir }}/memcache.conf
-{%- endif %}
 
 {%- endif %}
