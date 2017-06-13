@@ -16,14 +16,15 @@ swift_proxy_packages:
   - group: swift
   - mode: 644
 
-{%- if not grains.get('noservices', False) %}
 swift_proxy_services:
   service.running:
   - enable: true
   - names: {{ proxy.services }}
+  {%- if grains.get('noservices') %}
+  - onlyif: /bin/false
+  {%- endif %}
   - watch:
     - file: {{ common.swift_dir }}/proxy-server.conf
     - file: {{ common.swift_dir }}/memcache.conf
-{%- endif %}
 
 {%- endif %}
