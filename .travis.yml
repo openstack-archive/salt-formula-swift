@@ -17,17 +17,18 @@ install:
   - bundle install
 
 env:
-    - PLATFORM=trevorj/salty-whales:trusty SUITE=proxy_cluster
-    - PLATFORM=trevorj/salty-whales:xenial SUITE=proxy_cluster
-    - PLATFORM=trevorj/salty-whales:trusty SUITE=storage_cluster
-    - PLATFORM=trevorj/salty-whales:xenial SUITE=storage_cluster
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=proxy-cluster
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=proxy-cluster
+    - PLATFORM=trevorj/salty-whales:trusty SUITE=storage-cluster
+    - PLATFORM=trevorj/salty-whales:xenial SUITE=storage-cluster
 
 before_script:
   - set -o pipefail
   - make test | tail
 
 script:
-  - KITCHEN_LOCAL_YAML=.kitchen.travis.yml bundle exec kitchen test -t tests/integration
+  - test ! -e .kitchen.yml || bundle exec kitchen converge ${SUITE} || true
+  - test ! -e .kitchen.yml || bundle exec kitchen verify ${SUITE} -t tests/integration
 
 notifications:
   webhooks:
