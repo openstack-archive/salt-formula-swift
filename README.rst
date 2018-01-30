@@ -1,14 +1,18 @@
-================
-OpenStack Swift
-================
 
-Swift is a highly available, distributed, eventually consistent object/blob store. Organizations can use Swift to store lots of data efficiently, safely, and cheaply.
+=============
+Swift Formula
+=============
 
-Sample pillars
-==============
+Swift is a highly available, distributed, eventually consistent object/blob
+store. Organizations can use Swift to store lots of data efficiently, safely,
+and cheaply.
 
-Swift proxy server
-------------------
+
+Sample Metadata
+===============
+
+Swift proxy
+-----------
 
 .. code-block:: yaml
 
@@ -39,8 +43,8 @@ Swift proxy server
           password: pwd
           tenant: service
 
-Swift storage server
---------------------
+Swift storage
+-------------
 
 .. code-block:: yaml
 
@@ -120,32 +124,6 @@ Ring builder
                   device: vdb
                 - address: ${_param:storage_node02_address}
                   device: vdc
-
-Documentation and Bugs
-============================
-
-To learn how to deploy OpenStack Salt, consult the documentation available
-online at:
-
-    https://wiki.openstack.org/wiki/OpenStackSalt
-
-In the unfortunate event that bugs are discovered, they should be reported to
-the appropriate bug tracker. If you obtained the software from a 3rd party
-operating system vendor, it is often wise to use their own bug tracker for
-reporting problems. In all other cases use the master OpenStack bug tracker,
-available at:
-
-    http://bugs.launchpad.net/openstack-salt
-
-Developers wishing to work on the OpenStack Salt project should always base
-their work on the latest formulas code, available from the master GIT
-repository at:
-
-    https://git.openstack.org/cgit/openstack/salt-formula-swift
-
-Developers should also join the discussion on the IRC list, at:
-
-    https://wiki.openstack.org/wiki/Meetings/openstack-salt
 
 
 Documentation and Bugs
