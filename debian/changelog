@@ -1,0 +1,5 @@
+salt-formula-swift (2018.1) xenial; urgency=medium
+
+  * Initial release
+
+ -- Petr Michalec salt-formulas@freelists.org  Tue, 20 Feb 2018 09:15:48 GMT

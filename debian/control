@@ -1,0 +1,15 @@
+Source: salt-formula-swift
+Maintainer: Petr Michalec <salt-formulas@freelists.org>
+Section: admin
+Priority: optional
+Build-Depends: debhelper (>= 9), salt-master, python, python-yaml
+Standards-Version: 3.9.6
+Homepage: https://github.com/salt-formulas/salt-formula-swift
+Vcs-Browser: https://github.com/salt-formulas/salt-formula-swift
+Vcs-Git: https://github.com/salt-formulas/salt-formula-swift.git
+
+Package: salt-formula-swift
+Architecture: all
+Depends: ${misc:Depends}
+Description: swift salt formula
+ Install and configure swift.
